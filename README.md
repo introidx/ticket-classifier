@@ -1,4 +1,4 @@
-# 🧾 Ticket Classifier (Billing vs Others)
+# 🧾 Ticket Classifier [Vibe Coded]
 
 This project fine-tunes a transformer model to classify customer support tickets (e.g., billing-related vs shipping-related) and uses OpenAI's API to extract structured information like summary, purchase order ID, and tracking number.
 
