@@ -1,0 +1,11 @@
+ticket_id,text,label
+JIRA-1001,"Why was I charged more than the estimated cost before shipment?",billing
+JIRA-1002,"I received my order late by 5 days",shipping
+JIRA-1003,"What are the payment terms for prepaid shipping?",billing
+JIRA-1004,"My tracking number says delivered but I haven't received it",shipping
+JIRA-1005,"Please confirm the total billed amount and the itemized charges",billing
+JIRA-1006,"When will my package arrive?",shipping
+JIRA-1007,"I was promised free delivery, but I was charged",billing
+JIRA-1008,"Can you provide tracking updates for my parcel?",shipping
+JIRA-1009,"The invoice generated doesn't match the quote",billing
+JIRA-1010,"I want to know where my order is",shipping
