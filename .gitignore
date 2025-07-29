@@ -1,0 +1,39 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Conda environment file (lock file)
+conda-meta/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Model training outputs
+output/
+saved_model/
+logs/
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Python dependency cache
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# VSCode and IDE configs
+.vscode/
+.idea/
+*.swp
+
+# CSV or training data (optional)
+data/*.csv
+!data/labeled_tickets.csv  # allow just the base training file
