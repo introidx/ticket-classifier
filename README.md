@@ -90,7 +90,7 @@ Example output:
   "category": "billing",
   "purchaseOrderId": "PO-12345",
   "trackingNumber": "TRK-67890",
-  "summary": "Customer was billed more than expected after delivery."
+  "summary": "Seller was billed more than expected after delivery."
 }
 ```
 
