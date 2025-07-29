@@ -1,6 +1,6 @@
 # 🧾 Ticket Classifier (Billing vs Others)
 
-This project fine-tunes a transformer model to classify customer support tickets (e.g., billing-related vs shipping-related) using labeled JIRA ticket text.
+This project fine-tunes a transformer model to classify customer support tickets (e.g., billing-related vs shipping-related) and uses OpenAI's API to extract structured information like summary, purchase order ID, and tracking number.
 
 ---
 
@@ -9,7 +9,10 @@ This project fine-tunes a transformer model to classify customer support tickets
 - Classify JIRA support ticket text into categories (like `billing`, `shipping`)
 - Fine-tune your own model using a CSV dataset
 - Predict new tickets using your trained model
-- Designed for easy deployment on local or cloud (Azure-ready)
+- Extract structured information using OpenAI API:
+  - Summary (1-liner)
+  - Purchase Order ID (poId, purchaseOrderId, purchase order id, etc.)
+  - Tracking Number (trackingId, tracking_number, tracking number, etc.)
 
 ---
 
@@ -17,15 +20,17 @@ This project fine-tunes a transformer model to classify customer support tickets
 
 ```
 ticket-classifier/
-├── config.py              # Global config (model name, label enums)
-├── dataset.py             # Custom Dataset class
-├── model.py               # Model loader (DistilBERT classifier)
-├── train.py               # Fine-tunes model using labeled CSV
-├── predict.py             # Predicts label from new ticket text
-├── utils.py               # Data loading, preprocessing utils
-├── requirements.txt       # Dependencies
-├── .gitignore             # Excludes model, logs, venv
-├── README.md              # You're reading it!
+├── config.py                # Global config (model name, label enums)
+├── dataset.py               # Custom Dataset class
+├── model.py                 # Model loader (DistilBERT classifier)
+├── train.py                 # Fine-tunes model using labeled CSV
+├── predict.py               # Predicts label from new ticket text
+├── predict_json.py          # Returns full structured JSON output
+├── summarizer.py            # Extracts summary, PO ID, tracking number using OpenAI
+├── utils.py                 # Data loading, preprocessing utils
+├── requirements.txt         # Dependencies
+├── .gitignore               # Excludes model, logs, venv
+├── README.md                # You're reading it!
 └── data/
     └── labeled_tickets.csv  # Your training dataset
 ```
@@ -37,8 +42,8 @@ ticket-classifier/
 ### 1. 🧪 Create a Conda Environment
 
 ```bash
-conda create -n ticket-classifier python=3.10 -y
-conda activate ticket-classifier
+conda create -p venv python=3.12
+conda activate venv/
 ```
 
 ### 2. 📦 Install Dependencies
@@ -47,25 +52,19 @@ conda activate ticket-classifier
 pip install -r requirements.txt
 ```
 
-### 3. ✍️ Prepare Your Training Data
+### 3. 🔐 Set Up OpenAI API
 
-Place your labeled support tickets in:
+Create a `.env` file in the root directory:
 
 ```
-data/labeled_tickets.csv
-```
-
-Example:
-
-```csv
-ticket_id,text,label
-JIRA-101,"Why was I charged more than estimated?",billing
-JIRA-102,"Where is my package?",shipping
+OPENAI_API_KEY=sk-...
+OPENAI_MODEL=gpt-3.5-turbo
+TEMPERATURE=0.3
 ```
 
 ---
 
-## 🏋️‍♂️ Train the Model
+## 🏋️‍♂️ Train the Classifier
 
 ```bash
 python train.py
@@ -75,42 +74,40 @@ This will create a trained model inside the `saved_model/` folder.
 
 ---
 
-## 🔮 Predict a New Ticket
+## 🔮 Predict and Extract Full Ticket Information
 
-Edit `predict.py` to change the input ticket text.
-
-Then run:
+Run this to get the full structured output:
 
 ```bash
-python predict.py
+python predict_json.py
 ```
 
 Example output:
 
-```
-Ticket ID: JIRA-999
-Predicted Category: billing
+```json
+{
+  "ticketId": "JIRA-2025",
+  "category": "billing",
+  "purchaseOrderId": "PO-12345",
+  "trackingNumber": "TRK-67890",
+  "summary": "Customer was billed more than expected after delivery."
+}
 ```
 
 ---
 
-## ✅ Coming Soon (optional)
+## ✅ Coming Soon
 
 - [ ] Batch prediction from CSV
 - [ ] FastAPI REST endpoint
-- [ ] ID extraction (purchaseOrderId, trackingNumber)
 - [ ] Feedback loop for retraining
 
 ---
 
 ## 🧠 Powered By
 
-- [Transformers (Hugging Face)](https://huggingface.co/docs/transformers)
-- PyTorch or TensorFlow (backend)
-- Sentence classification with `distilbert-base-uncased`
+- [Hugging Face Transformers](https://huggingface.co/docs/transformers)
+- [OpenAI Chat API](https://platform.openai.com/docs/)
+- PyTorch or TensorFlow backend
 
 ---
-
-## 📬 Questions?
-
-Open an issue or reach out in the discussions tab.
